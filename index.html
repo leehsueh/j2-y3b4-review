@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" ng-app> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>J2 Class Review</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="stylesheets/app.css">
+
+  <script src="javascripts/modernizr.foundation.js"></script>
+  <script src="javascripts/angularjs/angular-1.0.1.js"></script>
+
+  <!-- IE Fix for HTML5 Tags -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+</head>
+<body>
+
+  <div class="row">
+    <div class="twelve columns">
+      <h1>J2 Class Review! YEAAAAH!</h1>
+      <h4 class="subheader">This has all the answers, but you have to take the test first :)</h4>
+      <hr />
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="twelve columns">
+      <dl class="nice tabs contained">
+        <dd class="active"><a href="#quiz">Review Quiz</a></dd>
+        <dd><a href="#books-in-order">Letters in Order</a></dd>
+        <dd><a href="#memory-verses">Memory Verses</a></dd>
+        <dd><a href="#jeopardy">Jeopardy (sorta)</a></dd>
+      </dl>
+      <ul class="tabs-content contained">
+        <li id="quizTab" class="active">
+          <p>Quiz time. No cheating.</p>
+        </li>
+        <li id="memory-versesTab" ng-controller="MVCtrl">
+          <ol id="verses-list">
+            <li ng-repeat="verse in verses">
+              <a ng-click="setSelectedVerse(verse)" data-reveal-id="verseModal" data-closeonbackgroundclick="false">{{verse.book}} {{verse.reference}}</a>
+            </li>
+          </ol>
+          <div id="verseModal" class="reveal-modal expand">
+            <h4>{{selectedVerse.book}} {{selectedVerse.reference}}</h4>
+            <p ng-bind-html-unsafe="selectedVerse.htmlText" class="verseText"></p>
+            <p><button ng-click="toggleAnswers()" class="nice small button secondary">Toggle Answers</button></p>
+            <a class="close-reveal-modal">×</a>
+          </div>
+        </li>
+        <li id="books-in-orderTab" ng-controller="LetterCtrl">
+          <div class="row">
+            <div class="five columns">
+              <h3>Biblical Order</h3>
+              <ul class="button-group">
+                <li><button ng-click="hideAllBibleOrder()" class="small button">Hide All</button></li>
+                <li><button ng-click="showAllBibleOrder()" class="small button">Show All</button></li>
+                <li><button ng-click="incrementBibleOrder(-1)" class="small button">Back</button></li>
+                <li><button ng-click="incrementBibleOrder(1)" class="small button">Next</button></li>
+              </ul>
+              <ul class="letters-list">
+                <li ng-class="letterToGroupMap[letter]" ng-repeat="letter in lettersBibleOrder.slice(0, bibleOrderIndex)">{{letter}}</li>
+              </ul>
+            </div>
+            <div class="five columns">
+              <h3>Chronological Order</h3>
+              <ul class="button-group">
+                <li><button ng-click="hideAllChronoOrder()" class="small button">Hide All</button></li>
+                <li><button ng-click="showAllChronoOrder()" class="small button">Show All</button></li>
+                <li><button ng-click="incrementChronoOrder(-1)" class="small button">Back</button></li>
+                <li><button ng-click="incrementChronoOrder(1)" class="small button">Next</button></li>
+              </ul>
+              <ul class="letters-list">
+                <li ng-class="letterToGroupMap[letter]" ng-repeat="letter in lettersChronoOrder.slice(0, chronoOrderIndex)">{{letter}}</li>
+              </ul>
+            </div>
+            <div class="two columns">
+              <h4 class="subheader">Color Key</h4>
+              <ul class="letters-list">
+                <li class="journey">Journey</li>
+                <li class="prison">Prison</li>
+                <li class="pastoral">Pastoral</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li id="jeopardyTab" ng-controller="JeopardyCtrl">
+          <div class="row">
+            <p class="points-container">Points: <span id="points" ng-bind="points"></span></p>
+            <ul class="button-group">
+              <li><button ng-click="incrementPoints(1)" class="nice small success button">Add</button></li>
+              <li><button ng-click="incrementPoints(-1)" class="nice small alert button">Subtract</button></li>
+            </ul>
+          </div>
+          <div class="row">
+            <div class="six columns questions-grid">
+              <h3>Letter Background</h3>
+              <a class="question-badge letter-background-badge" ng-repeat="letter in letterBackgrounds" ng-click="setSelectedLetter(letter)" data-reveal-id="letterInfoModal">
+                <span ng-class="coveredClass(letter)">{{$index + 1}}</span>
+              </a>
+            </div>
+            <div class="six columns questions-grid">
+              <h3>Key Phrases</h3>
+              <a class="question-badge keyphrase-badge" ng-repeat="keyphrase in keyphrases" ng-click="setSelectedKeyphrase(keyphrase)" data-reveal-id="keyphraseModal">
+                <span ng-class="coveredClass(keyphrase)">{{$index + 1}}</span>
+              </a>
+            </div>
+          </div>
+          
+          <div id="letterInfoModal" class="reveal-modal expand">
+            <a class="close-reveal-modal">x</a>
+            <h3>Background</h3>
+            <p class="info panel">{{selectedLetter.info}}</p>
+            <div class="answer-timer-container">
+              <p ng-class="answerClasses()">{{selectedLetter.book}}</p>
+              <p class="countdown-timer" ng-bind="timeLeft"></p>
+            </div>
+            <p>
+              <button ng-click="showBook()" class="nice small button">Show Book</button>
+              <button ng-click="toggleCountDown()" class="nice small button secondary">Count Down</button>
+              <button ng-click="addTime()" class="nice small button secondary">Add Time</button>
+            </p>
+            
+          </div>
+          <div id="keyphraseModal" class="reveal-modal xlarge">
+            <a class="close-reveal-modal">x</a>
+            <h3>Key Phrases</h3>
+            <ul id="phrases-list">
+              <li ng-repeat="phrase in selectedKeyphrase.phrases" class="panel">{{phrase}}</li>
+            </ul>
+            <div class="answer-timer-container">
+              <p ng-class="answerClasses()">{{selectedKeyphrase.book}}</p>
+              <p class="countdown-timer" ng-bind="timeLeft"></p>
+            </div>
+            <p>
+              <button ng-click="showBook()" class="nice small button">Show Book</button>
+              <button ng-click="toggleCountDown()" class="nice small button secondary">Count Down</button>
+              <button ng-click="addTime()" class="nice small button secondary">Add Time</button>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="eight columns">
+      
+    </div>
+  </div>
+
+  
+  <!-- Included JS Files (Compressed) -->
+  <script src="javascripts/underscore-min.js"></script>
+  <script src="javascripts/foundation.min.js"></script>
+  <script src="javascripts/handlebars-1.0.0.beta.6.js"></script>
+  <script type="text/javascript" src="javascripts/data.js"></script>
+  <script src="javascripts/angularapp.js"></script>
+  
+  <!-- Initialize JS Plugins -->
+  <script src="javascripts/app.js"></script>
+</body>
+</html>

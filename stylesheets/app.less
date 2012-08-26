@@ -1,0 +1,167 @@
+@import 'lib';
+
+.reveal-modal {
+	margin-top: -100px;
+}
+/* -----------------------------------------
+   Memory verse
+----------------------------------------- */
+#memory-versesTab {
+	#verses-list {
+		li {
+			list-style-position: outside;
+			font-size: 1.5em;
+			margin: 2px;
+			a {
+				background-color: #ededed;
+				padding: 15px;
+				display: block;
+				&:hover {
+					background-color: #ddd;
+				}
+			}
+		}
+	}
+	span.w {
+		@hidebgcolor: #aaa;
+		@showbgcolor: lighten(yellow, 20);
+		@showcolor: #333;
+		display: inline-block;
+		background-color: @hidebgcolor;
+		color: @hidebgcolor;
+		font-weight: bold;
+		padding: 2px 5px;
+		margin: 2px;
+		.border-radius(2px);
+
+		&.show {
+			color: @showcolor;
+			background-color: @showbgcolor;
+		}
+	}
+}
+
+#verseModal {
+	.verseText {
+		line-height: 2;
+		font-size: 1.75em;
+	}
+}
+
+
+/* -----------------------------------------
+   Letters in order
+----------------------------------------- */
+#books-in-orderTab {
+	ul.letters-list {
+		margin-left: 0;
+		li {
+			list-style-type: none;
+			font-size: 1.2em;
+			margin: 2px;
+			padding: 5px;
+			font-weight: bold;
+
+			&.journey {
+				background-color: #99ccff;
+			}
+			&.prison {
+				background-color: lighten(#C60F13, 30);
+			}
+			&.pastoral {
+				background-color: lighten(#5DA423, 20);
+			}
+		}
+	}
+}
+
+
+
+/* -----------------------------------------
+   Jeopardy
+----------------------------------------- */
+.points-container {
+	font-size: 2.5em;
+}
+.questions-grid {
+	.question-badge {
+		float: left;
+		width: 120px;
+		height: 100px;
+		padding: 10px;
+		margin: 2px;
+		.border-radius(5px);
+		background: #ddd;
+		color: #2BA6CB;
+
+		span {
+			display: block;
+			height: 50px;
+			width: 80px;
+			font-size: 3em;
+			margin: 0 auto;
+			text-align: center;
+			font-weight: bold;
+			&.covered {
+				color: #aaa;
+				font-style: italic;
+				font-weight: normal;
+			}
+		}
+
+		&:hover {
+			background: #ccc;
+		}
+	}
+}
+
+#letterInfoModal, #keyphraseModal {
+	.info, #phrases-list li {
+		font-size: 1.75em;
+	}
+	#phrases-list {
+		padding: 0;
+		li {
+			list-style-type: none;
+			text-align: center;
+		}
+	}
+	.answer-timer-container {
+		.answer, .countdown-timer {
+			padding: 10px;
+			font-size: 2em;
+			margin: 20px auto;
+		}
+		.answer {
+			@hidebgcolor: #eee;
+			@showbgcolor: lighten(#5DA423, 20);
+			@showcolor: #333;
+			border: 2px dashed darken(@hidebgcolor, 15);
+			.border-radius(5px);
+			width: 50%;
+			
+			float: right;
+			text-align: center;
+			font-weight: bold;
+			background-color: @hidebgcolor;
+			color: @hidebgcolor;
+			&.show {
+				color: @showcolor;
+				background-color: @showbgcolor;
+				border-color: darken(@showbgcolor, 15);
+			}
+		}
+		.countdown-timer {
+			float: right;
+			text-align: center;
+			font-size: 3em;
+			padding: 1px;
+			width: 12%;
+			margin-right: 10px;
+			border: 1px solid #333;
+		}
+		&::after{ content: "."; display: block; height: 0; font-size:0; clear: both; visibility:hidden; }
+	}
+	
+}
+
