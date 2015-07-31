@@ -41,40 +41,10 @@
 	}
 }
 
-#verseModal {
-	.verseText {
-		line-height: 2;
-		font-size: 1.75em;
-	}
+.largerText {
+	line-height: 2;
+	font-size: 1.75em;
 }
-
-
-/* -----------------------------------------
-   Letters in order
------------------------------------------ */
-#books-in-orderTab {
-	ul.letters-list {
-		margin-left: 0;
-		li {
-			list-style-type: none;
-			font-size: 1.2em;
-			margin: 2px;
-			padding: 5px;
-			font-weight: bold;
-
-			&.journey {
-				background-color: #99ccff;
-			}
-			&.prison {
-				background-color: lighten(#C60F13, 30);
-			}
-			&.pastoral {
-				background-color: lighten(#5DA423, 20);
-			}
-		}
-	}
-}
-
 
 
 /* -----------------------------------------
@@ -115,21 +85,18 @@
 	}
 }
 
-#letterInfoModal, #keyphraseModal {
-	.info, #phrases-list li {
-		font-size: 1.75em;
-	}
-	#phrases-list {
+#questionModal {
+	.possible-answers {
 		padding: 0;
 		li {
 			list-style-type: none;
-			text-align: center;
+			text-align: left;
+			font-size: 1.5em;
 		}
 	}
 	.answer-timer-container {
 		.answer, .countdown-timer {
 			padding: 10px;
-			font-size: 2em;
 			margin: 20px auto;
 		}
 		.answer {
@@ -138,11 +105,11 @@
 			@showcolor: #333;
 			border: 2px dashed darken(@hidebgcolor, 15);
 			.border-radius(5px);
-			width: 50%;
+			// width: 50%;
 			
-			float: right;
-			text-align: center;
-			font-weight: bold;
+			// float: right;
+			// text-align: center;
+			// font-weight: bold;
 			background-color: @hidebgcolor;
 			color: @hidebgcolor;
 			&.show {
@@ -152,11 +119,11 @@
 			}
 		}
 		.countdown-timer {
-			float: right;
+			// float: right;
 			text-align: center;
 			font-size: 3em;
 			padding: 1px;
-			width: 12%;
+			// width: 12%;
 			margin-right: 10px;
 			border: 1px solid #333;
 		}

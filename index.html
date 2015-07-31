@@ -35,8 +35,7 @@
 
   <div class="row">
     <div class="twelve columns">
-      <h1>J2 Class Review! YEAAAAH!</h1>
-      <h4 class="subheader">This has all the answers, but you have to take the test first :)</h4>
+      <h1>J2 Class Review! 1 Kings</h1>
       <hr />
     </div>
   </div>
@@ -44,15 +43,10 @@
   <div class="row">
     <div class="twelve columns">
       <dl class="nice tabs contained">
-        <dd class="active"><a href="#quiz">Review Quiz</a></dd>
-        <dd><a href="#books-in-order">Letters in Order</a></dd>
         <dd><a href="#memory-verses">Memory Verses</a></dd>
         <dd><a href="#jeopardy">Jeopardy (sorta)</a></dd>
       </dl>
       <ul class="tabs-content contained">
-        <li id="quizTab" class="active">
-          <p>Quiz time. No cheating.</p>
-        </li>
         <li id="memory-versesTab" ng-controller="MVCtrl">
           <ol id="verses-list">
             <li ng-repeat="verse in verses">
@@ -61,83 +55,59 @@
           </ol>
           <div id="verseModal" class="reveal-modal expand">
             <h4>{{selectedVerse.book}} {{selectedVerse.reference}}</h4>
-            <p ng-bind-html-unsafe="selectedVerse.htmlText" class="verseText"></p>
+            <p ng-bind-html-unsafe="selectedVerse.htmlText" class="largerText"></p>
             <p><button ng-click="toggleAnswers()" class="nice small button secondary">Toggle Answers</button></p>
             <a class="close-reveal-modal">×</a>
           </div>
         </li>
-        <li id="books-in-orderTab" ng-controller="LetterCtrl">
-          <div class="row">
-            <div class="five columns">
-              <h3>Biblical Order</h3>
-              <ul class="button-group">
-                <li><button ng-click="hideAllBibleOrder()" class="small button">Hide All</button></li>
-                <li><button ng-click="showAllBibleOrder()" class="small button">Show All</button></li>
-                <li><button ng-click="incrementBibleOrder(-1)" class="small button">Back</button></li>
-                <li><button ng-click="incrementBibleOrder(1)" class="small button">Next</button></li>
-              </ul>
-              <ul class="letters-list">
-                <li ng-class="letterToGroupMap[letter]" ng-repeat="letter in lettersBibleOrder.slice(0, bibleOrderIndex)">{{letter}}</li>
-              </ul>
-            </div>
-            <div class="five columns">
-              <h3>Chronological Order</h3>
-              <ul class="button-group">
-                <li><button ng-click="hideAllChronoOrder()" class="small button">Hide All</button></li>
-                <li><button ng-click="showAllChronoOrder()" class="small button">Show All</button></li>
-                <li><button ng-click="incrementChronoOrder(-1)" class="small button">Back</button></li>
-                <li><button ng-click="incrementChronoOrder(1)" class="small button">Next</button></li>
-              </ul>
-              <ul class="letters-list">
-                <li ng-class="letterToGroupMap[letter]" ng-repeat="letter in lettersChronoOrder.slice(0, chronoOrderIndex)">{{letter}}</li>
-              </ul>
-            </div>
-            <div class="two columns">
-              <h4 class="subheader">Color Key</h4>
-              <ul class="letters-list">
-                <li class="journey">Journey</li>
-                <li class="prison">Prison</li>
-                <li class="pastoral">Pastoral</li>
-              </ul>
-            </div>
-          </div>
-        </li>
         <li id="jeopardyTab" ng-controller="JeopardyCtrl">
           <div class="row">
-            <p class="points-container">Points: <span id="points" ng-bind="points"></span></p>
-            <ul class="button-group">
-              <li><button ng-click="incrementPoints(1)" class="nice small success button">Add</button></li>
-              <li><button ng-click="incrementPoints(-1)" class="nice small alert button">Subtract</button></li>
-            </ul>
+            <div class="six columns">
+              <p class="points-container">Points (Sistahs): <span id="points" ng-bind="points"></span></p>
+              <ul class="button-group">
+                <li><button ng-click="incrementPoints(1)" class="nice small success button">Add</button></li>
+                <li><button ng-click="incrementPoints(-1)" class="nice small alert button">Subtract</button></li>
+              </ul>
+            </div>
+            <div class="six columns">
+              <p class="points-container">Points (Brothahs): <span id="points" ng-bind="points2"></span></p>
+              <ul class="button-group">
+                <li><button ng-click="incrementPoints2(1)" class="nice small success button">Add</button></li>
+                <li><button ng-click="incrementPoints2(-1)" class="nice small alert button">Subtract</button></li>
+              </ul>
+            </div>
+
           </div>
           <div class="row">
-            <div class="six columns questions-grid">
-              <h3>Letter Background</h3>
-              <a class="question-badge letter-background-badge" ng-repeat="letter in letterBackgrounds" ng-click="setSelectedLetter(letter)" data-reveal-id="letterInfoModal">
-                <span ng-class="coveredClass(letter)">{{$index + 1}}</span>
-              </a>
-            </div>
-            <div class="six columns questions-grid">
-              <h3>Key Phrases</h3>
-              <a class="question-badge keyphrase-badge" ng-repeat="keyphrase in keyphrases" ng-click="setSelectedKeyphrase(keyphrase)" data-reveal-id="keyphraseModal">
-                <span ng-class="coveredClass(keyphrase)">{{$index + 1}}</span>
+            <div class="columns three questions-grid" ng-repeat="category in categories">
+              <h4>{{category}}</h4>
+              <a class="question-badge letter-background-badge" ng-repeat="question in questions[category]" ng-click="setSelectedQuestion(question)" data-reveal-id="questionModal">
+                <span ng-class="coveredClass(question)">{{$index + 1}}</span>
               </a>
             </div>
           </div>
           
-          <div id="letterInfoModal" class="reveal-modal expand">
+          <div id="questionModal" class="reveal-modal expand">
             <a class="close-reveal-modal">x</a>
-            <h3>Background</h3>
-            <p class="info panel">{{selectedLetter.info}}</p>
-            <div class="answer-timer-container">
-              <p ng-class="answerClasses()">{{selectedLetter.book}}</p>
-              <p class="countdown-timer" ng-bind="timeLeft"></p>
+            <p class="info panel largerText">{{selectedQuestion.text}}</p>
+
+            <div class="answer-timer-container row">
+
+              <div class="nine columns possible-answers">
+                <p>
+                  <button ng-click="showAnswers=!showAnswers" class="nice small button">Toggle Possible Answers</button>
+                </p>
+                <ul ng-show="showAnswers">
+                  <li class="answer show" ng-repeat="answer in selectedQuestion.answers">{{answer}}</li>
+                </ul>
+              </div>
+              <div class="two columns">
+                <p class="countdown-timer" ng-bind="timeLeft"></p>
+                <button ng-click="toggleCountDown()" class="nice small button secondary">Pause/Resume</button>
+                <button ng-click="addTime()" class="nice small button secondary">Add Time</button>
+              </div>
+
             </div>
-            <p>
-              <button ng-click="showBook()" class="nice small button">Show Book</button>
-              <button ng-click="toggleCountDown()" class="nice small button secondary">Count Down</button>
-              <button ng-click="addTime()" class="nice small button secondary">Add Time</button>
-            </p>
             
           </div>
           <div id="keyphraseModal" class="reveal-modal xlarge">
@@ -159,16 +129,12 @@
         </li>
       </ul>
     </div>
-    <div class="eight columns">
-      
-    </div>
   </div>
 
   
   <!-- Included JS Files (Compressed) -->
   <script src="javascripts/underscore-min.js"></script>
   <script src="javascripts/foundation.min.js"></script>
-  <script src="javascripts/handlebars-1.0.0.beta.6.js"></script>
   <script type="text/javascript" src="javascripts/data.js"></script>
   <script src="javascripts/angularapp.js"></script>
   

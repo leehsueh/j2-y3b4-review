@@ -10,39 +10,26 @@ function MVCtrl($scope) {
 	}
 }
 
-function LetterCtrl($scope) {
-	$scope.letterToGroupMap = letterToGroupMap;
-	$scope.lettersBibleOrder = lettersBibleOrder;
-	$scope.bibleOrderIndex = 0;
-	$scope.incrementBibleOrder = function (inc) {
-		$scope.bibleOrderIndex += inc;
-	}
-	$scope.showAllBibleOrder = function () {
-		$scope.bibleOrderIndex = $scope.lettersBibleOrder.length;
-	}
-	$scope.hideAllBibleOrder = function () {
-		$scope.bibleOrderIndex = 0;
-	}
-	$scope.lettersChronoOrder = lettersChronoOrder;
-	$scope.chronoOrderIndex = 0;
-	$scope.incrementChronoOrder = function (inc) {
-		$scope.chronoOrderIndex += inc;
-		if ($scope.chronoOrderIndex > $scope.lettersChronoOrder.length) $scope.chronoOrderIndex = $scope.lettersChronoOrder.length;
-		if ($scope.chronoOrderIndex < 0) $scope.chronoOrderIndex = 0;
-	}
-	$scope.showAllChronoOrder = function () {
-		$scope.chronoOrderIndex = $scope.lettersChronoOrder.length;
-	}
-	$scope.hideAllChronoOrder = function () {
-		$scope.chronoOrderIndex = 0;
+function RandomCtrl($scope) {
+	$scope.students = ["Ruth", "Victoria", "Ben", "Austin"]
+	$scope.selectedStudent = function() {
+
 	}
 }
 
 function JeopardyCtrl($scope) {
-	var TIME_LIMIT = 15;	// 15 seconds
+	var TIME_LIMIT = 30;	// 15 seconds
 	$scope.timeLeft = TIME_LIMIT;
 	$scope.countDown = false;
 	$scope.intervalID = null;
+	$scope.categories = categories;
+	$scope.questions = questions;
+
+	$scope.setSelectedQuestion = function(question) {
+		$scope.selectedQuestion = question;
+		question.covered = true;
+		$scope.resetQuestion()
+	}
 	$scope.toggleCountDown = function () {
 		if ($scope.countDown) {
 			clearInterval($scope.intervalID);
@@ -66,8 +53,9 @@ function JeopardyCtrl($scope) {
 
 	$scope.resetQuestion = function () {
 		$(".reveal-modal-bg").remove();
-		$scope.bookShowing = false;
+		$scope.showAnswers = false;
 		$scope.countDown = false;
+		$scope.selectedQuestion.covered = true;
 		clearInterval($scope.intervalID);
 		$scope.timeLeft = TIME_LIMIT;
 
@@ -80,22 +68,9 @@ function JeopardyCtrl($scope) {
 		$scope.points += inc;
 	}
 
-	$scope.letterBackgrounds = _.shuffle(letterBackgrounds);
-	$scope.keyphrases = _.shuffle(keyphrases);
-	// show book answer state
-	$scope.bookShowing = false;
-
-	$scope.selectedLetter = null;
-	$scope.setSelectedLetter = function (letter) {
-		letter.covered = true;
-		$scope.resetQuestion();
-		$scope.selectedLetter = letter;
-	}
-	$scope.selectedKeyphrase = null;
-	$scope.setSelectedKeyphrase = function (keyphrase) {
-		keyphrase.covered = true;
-		$scope.resetQuestion();
-		$scope.selectedKeyphrase = keyphrase;
+	$scope.points2 = 0;
+	$scope.incrementPoints2 = function (inc) {
+		$scope.points2 += inc;
 	}
 
 	// if a question has been revealed, mark it as covered
@@ -109,11 +84,8 @@ function JeopardyCtrl($scope) {
 
 	$scope.answerClasses = function () {
 		var classes = ["answer"];
-		if ($scope.bookShowing) classes.push("show");
+		if ($scope.answerShowing) classes.push("show");
 		return classes;
-	}
-	$scope.showBook = function () {
-		$scope.bookShowing = !$scope.bookShowing;
 	}
 
 }
